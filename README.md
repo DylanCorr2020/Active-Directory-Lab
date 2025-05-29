@@ -32,7 +32,9 @@ This tutorial outlines the implementation of on-premises Active Directory within
 
 ## Step 1: Create a Resource Group
 
-<img height="75%" width="100%" alt="Image" src="https://github.com/user-attachments/assets/771dbc6b-1ab4-475c-9d09-55ef62c268e6" />
+- Select the appropiate Azure subscription.
+- Select the appropiate Azure region.
+
 
 ## Step 2: Create our own Virtual Network 
 
