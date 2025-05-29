@@ -17,7 +17,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
 - Windows Server 2022
 - Windows 10
 
- # High-Level Deployment and Configuration Steps
+ ## High-Level Deployment and Configuration Steps
 
 - Create Resources
 - Ensure Connectivity between the client and Domain Controller
