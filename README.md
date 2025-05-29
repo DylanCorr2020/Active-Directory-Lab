@@ -28,3 +28,10 @@ This tutorial outlines the implementation of on-premises Active Directory within
 - Create additional users using powershell and attempt to log into client-1 with one of the users
 
   
+# Part One Preparing AD Infastructure in Azure 
+
+## Step 1: Create a Resource Group
+
+<img width="100%" height="400" alt="Image" src="https://github.com/user-attachments/assets/771dbc6b-1ab4-475c-9d09-55ef62c268e6" />
+
+
