@@ -83,7 +83,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
    - Go into Network settings > click on Client 1's network interface card  > DNS servers
    - Click Custom and add DC-1's private id address
  
-  <img width="50%" height = "50%" alt="Image" src="https://github.com/user-attachments/assets/d135f897-5126-4be7-9058-f062c5ac0a9c" />
+ <img width="505" alt="Image" src="https://github.com/user-attachments/assets/c084ab6a-8b55-47ce-b15b-410d88768039" />
 
   
   - Doing this will allow us to join the domain 
