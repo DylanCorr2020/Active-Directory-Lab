@@ -83,7 +83,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
    - Go into Network settings > click on Client 1's network interface card  > DNS servers
    - Click Custom and add DC-1's private id address
  
-  <img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/d135f897-5126-4be7-9058-f062c5ac0a9c" />
+  <img width="50%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/d135f897-5126-4be7-9058-f062c5ac0a9c" />
 
   
   - Doing this will allow us to join the domain 
@@ -99,8 +99,61 @@ This tutorial outlines the implementation of on-premises Active Directory within
   <img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/65ef83ee-a708-42cb-8dab-416ecaec04f7" />
 
 
- 
+ # Part Two Deploying Active Directory 
+
+ ## Step 1: Install Active Directory 
      
+- Log into DC-1 via remote desktop connection and install active directory domain services.
+- Click start and open Server Manager
+- Click on Add Roles and Features
+- Server selection should only be one DC-1
+- Server Roles add Active Directory Domain Services and click Next
+  
+<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/0c235469-dccd-47c9-8126-cdeab5313058" />
+
+- Confirmattion tick then check "Restart the destination server automatically if required" click yes then install
+
+<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/de2ef90d-e707-45cc-a291-7dc8bfad08eb" />
+
+- Once installation complete you can close 
+
+
+
+ 
+## Step 2: Promote DC-1 as an active controller by setting up a new forest as mydomain.com
+
+- Go back into the server manager and click on "Promote this server to a domain controller"
+
+<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/04420e98-f4b0-41a1-8bc1-548bb392179c" /> 
+
+
+- Click the add new forest radio button and the domain name "mydomain.com"
+
+  
+<img width="100%" height = "75%"  alt="Image" src="https://github.com/user-attachments/assets/b0922233-bf65-4a1f-a00d-fd65777316cf" />
+
+- In Directory Controller Options  create a password
+
+ <img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/06428cf8-1e5a-4fbf-9e83-b5663c1ea435" /> 
+
+- In DNS Options uncheck the DNS delegation check box
+
+<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/276cc967-2a29-481f-b5a5-09f981cff1d5" />
+
+- After these steps DC-1 will turn into an actual domain controller should automatically restart 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
