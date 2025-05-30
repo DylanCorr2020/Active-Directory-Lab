@@ -67,7 +67,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
 
 - Home > Virtual  Machines > Network Settings > click on the virtual network interface card > edit Ip configuration > change from dynamic to static
 
-  <img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/f0513bc4-526c-438b-b264-de31524e9a50" />
+  <img width="505" alt="Image" src="https://github.com/user-attachments/assets/214e621f-c98c-48fc-ad1f-9827d0213c96" />
 
   ## Step 6: Test connectivity between DC-1 and Client-1
 
@@ -83,8 +83,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
    - Go into Network settings > click on Client 1's network interface card  > DNS servers
    - Click Custom and add DC-1's private id address
  
- <img width="505" alt="Image" src="https://github.com/user-attachments/assets/c084ab6a-8b55-47ce-b15b-410d88768039" />
-
+   <img width="730" alt="Image" src="https://github.com/user-attachments/assets/359af618-3619-4071-b46b-65dc67a60be8" />
   
   - Doing this will allow us to join the domain 
 
