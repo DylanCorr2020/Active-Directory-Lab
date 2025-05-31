@@ -75,8 +75,8 @@ This guide outlines how to deploy and configure an on-premises-style Active Dire
 
 ## Step 5: Set a Static IP for DC-1
 
-- Navigate to:  
-  **Home > Virtual Machines > Network Settings > NIC > IP Configuration**  
+- In Azure Navigate to:  
+  **Home > Virtual Machines > DC-1 > Network Settings > NIC > IP Configuration**  
   Change the setting from **Dynamic** to **Static**.
 
 <img width="505" alt="Image" src="https://github.com/user-attachments/assets/214e621f-c98c-48fc-ad1f-9827d0213c96" />
@@ -94,11 +94,13 @@ This guide outlines how to deploy and configure an on-premises-style Active Dire
 
 ## Step 7: Set DNS on Client-1 to Use DC-1's Private IP
 
-- Go to **Network Settings > NIC > DNS Servers**.
+- In Azure go to  **Virtual Machines > Client-1 > Network Settings > NIC > DNS Servers**.
 - Select **Custom**, then add **DC-1's private IP address**.
 - Restart **Client-1**.
 - Log in and run `ping <DC-1 private IP>` to confirm connectivity.
 - Verify DNS using `ipconfig /all` — DNS should point to DC-1.
+
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/4373c2f3-4ba9-451a-a5ac-47e17da07baf" />
 
 <img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/65ef83ee-a708-42cb-8dab-416ecaec04f7" />
 
