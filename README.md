@@ -142,6 +142,65 @@ This tutorial outlines the implementation of on-premises Active Directory within
 - After these steps DC-1 will turn into an actual domain controller should automatically restart 
 
 
+# Part 3 Create Admin User in Domain Controller (DC-1)
+
+## Step 1 Create an Organizational Unit (OU)
+
+- Click start > Windows Administrative Tools > Active Directory for Windows 
+
+<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/b696bee6-6ab7-4b77-be61-1b59d2cd1df1" />
+
+- Right Click mydomain.com > new > Organizational Unit > name it "_EMPLOYEES"
+
+- Then create another organizational unit called "_ADMINS"
+
+<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/dc99e3b4-7395-4069-81f9-99ec24f503b0" />
+
+- Create a new employee named “Jane Doe” (same password) with the username 
+  of “jane_admin” / Cyberlab1234!
+
+- Go to the _ADMINS folder > right click > new > User
+
+<img width="100%" height = "75%"  alt="Image" src="https://github.com/user-attachments/assets/0529cef5-2eed-4e20-a6bb-908e0e309a82" />
+
+- This account is not an admin yet we add jane_admin to the “Domain Admins” 
+  Security Group.
+
+- Right click on Jane Doe account > properties > click the member of tab > 
+ click Add>  in the select groups > enter the object name "domain admins" > 
+ then click check names > will find domain admins built in group.
+
+<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/7f34fadf-be25-4f93-92f4-9f25e7e7aac6" />
+
+- Log out / close the connection to DC-1 and log back in as “mydomain.com\jane_admin”.
+
+## Step 2 Join Client 1 to the domain DC-1 
+
+- Log into Client-1 VM
+- Right Click Start Menu > System > Rename this PC advanced > Under 
+  computer name tab >  click change 
+
+- Tick the radio button "Member of Domain"
+
+- Name it to "mydomain.com" click OK
+
+<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/a06a2670-f971-46fb-a220-f9819bdc3579" />
+
+- After click okay enter in admin credentials for domain controller
+
+- Client-1 will restart and will be a member of the domain.
+
+
+
+
+
+
+
+
+
+ 
+
+
 
 
 
