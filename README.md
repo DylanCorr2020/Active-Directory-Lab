@@ -1,194 +1,196 @@
-
 <img height="75%" width="100%" alt="Image" src="https://github.com/user-attachments/assets/c74ee0a4-fdb1-48c7-a78f-ecf69c1261d9" />
 
-# Configuring Active Directory (On-Premises) Within Azure
-This tutorial outlines the implementation of on-premises Active Directory within Azure Virtual Machines.
+# Configuring Active Directory (On-Premises) in Azure
 
+This guide outlines how to deploy and configure an on-premises-style Active Directory Domain Services (AD DS) environment using Azure Virtual Machines.
 
-## Environments and Technologies Used
+---
 
-- Microsoft Azure (Virtual Machines/Compute)
-- Remote Desktop
-- Active Directory Domain Services
-- PowerShell
+## 🖥️ Environments and Technologies Used
 
-## Operating Systems Used 
+- **Microsoft Azure** (Virtual Machines/Compute)
+- **Remote Desktop Protocol (RDP)**
+- **Active Directory Domain Services (AD DS)**
+- **PowerShell**
 
-- Windows Server 2022
-- Windows 10
+## 💻 Operating Systems Used
 
- ## High-Level Deployment and Configuration Steps
+- **Windows Server 2022**
+- **Windows 10 Pro**
 
-- Create Resources
-- Ensure Connectivity between the client and Domain Controller
-- Install Active Directory
-- Create an Admin and Normal User Account in AD
-- Join Client-1 to your domain (mydomain.com)
-- Setup Remote Desktop for non-administrative users on Client-1
-- Create additional users using powershell and attempt to log into client-1 with one of the users
+---
 
-  
-# Part One Preparing AD Infastructure in Azure 
+## 📋 High-Level Deployment and Configuration Steps
+
+1. Create Azure resources
+2. Ensure connectivity between the client and Domain Controller
+3. Install Active Directory Domain Services
+4. Create admin and standard user accounts in Active Directory
+5. Join `Client-1` to the domain (`mydomain.com`)
+6. Configure RDP access for non-administrative users
+7. Use PowerShell to create additional users and test logins
+
+---
+
+# Part 1: Preparing the AD Infrastructure in Azure
+
+---
 
 ## Step 1: Create a Resource Group
 
-- Select the appropiate Azure subscription.
-- Select the appropiate Azure region.
+- Select the appropriate Azure **Subscription**.
+- Choose the correct **Region** for your deployment.
 
+---
 
-## Step 2: Create our own Virtual Network 
+## Step 2: Create a Virtual Network
 
-<img  height="75%" width="100%" alt="Image" src="https://github.com/user-attachments/assets/748e4324-54da-4ba7-bc5d-fb12e5a11601" />
+<img height="75%" width="100%" alt="Image" src="https://github.com/user-attachments/assets/748e4324-54da-4ba7-bc5d-fb12e5a11601" />
 
-## Step 3: Create Domain Controller VM (DC-1)
+---
 
-- Resource Group: Select the previously created Resource Group.
-- Networking: Select your own Virtual Network thar was created.
-- Operating System: Choose Windows Server 2022
-- Note: Be sure to agree to the license agreement when selecting the Windows OS.
-- Size: Select a VM size that includes 2 vCPUs.
-- Authentication Type: Set this to Username/Password.
+## Step 3: Create the Domain Controller VM (DC-1)
+
+- **Resource Group:** Use the previously created Resource Group.
+- **Networking:** Use your custom Virtual Network.
+- **OS:** Windows Server 2022 (accept license agreement).
+- **Size:** Choose a VM with at least 2 vCPUs.
+- **Authentication Type:** Username/Password.
 
 <img height="75%" width="100%" alt="Image" src="https://github.com/user-attachments/assets/405889e3-a31a-4b80-84ad-22ea4ce3840c" />
 
+---
 
 ## Step 4: Create the Client Virtual Machine (Client-1)
 
-- Resource Group: Select the previously created Resource Group.
-- Networking: Select your own Virtual Network thar was created.
-- Operating System: Windows 10 Pro Version 22H2
-- Note: Be sure to agree to the license agreement when selecting the Windows OS.
-- Size: Select a VM size that includes 2 vCPUs.
-- Authentication Type: Set this to Username/Password.
+- **Resource Group:** Use the same Resource Group.
+- **Networking:** Select your custom Virtual Network.
+- **OS:** Windows 10 Pro (version 22H2).
+- **Size:** Minimum 2 vCPUs.
+- **Authentication Type:** Username/Password.
 
- <img width="100%" height = "75%"  alt="Image" src="https://github.com/user-attachments/assets/0be1793a-208d-4db8-a0bb-517b365ab4a3" />
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/0be1793a-208d-4db8-a0bb-517b365ab4a3" />
 
- ## Step 5: Change DC-1 IP address from dynamic to static
+---
 
-- Home > Virtual  Machines > Network Settings > click on the virtual network interface card > edit Ip configuration > change from dynamic to static
+## Step 5: Set a Static IP for DC-1
 
-  <img width="505" alt="Image" src="https://github.com/user-attachments/assets/214e621f-c98c-48fc-ad1f-9827d0213c96" />
+- Navigate to:  
+  **Home > Virtual Machines > Network Settings > NIC > IP Configuration**  
+  Change the setting from **Dynamic** to **Static**.
 
-  ## Step 6: Test connectivity between DC-1 and Client-1
+<img width="505" alt="Image" src="https://github.com/user-attachments/assets/214e621f-c98c-48fc-ad1f-9827d0213c96" />
 
-  - Log into DC-1 via remote desk top connection
-  - Type in the search bar Run and type mf.msc to open windows firewall
-  - disable the domain, private, and public profile
- 
-   <img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/077f7cef-53e5-41a9-b47c-23f07e3a9ae0" />
+---
 
+## Step 6: Test Connectivity Between DC-1 and Client-1
 
-   ## Step 7: Set Client-1's DNS settings to DC-1's private IP address
+- Log in to **DC-1** using Remote Desktop.
+- Press `Win + R`, type `wf.msc`, and disable all firewall profiles (Domain, Private, Public).
 
-   - Go into Network settings > click on Client 1's network interface card  > DNS servers
-   - Click Custom and add DC-1's private id address
- 
-   <img width="730" alt="Image" src="https://github.com/user-attachments/assets/359af618-3619-4071-b46b-65dc67a60be8" />
-  
-  - Doing this will allow us to join the domain 
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/077f7cef-53e5-41a9-b47c-23f07e3a9ae0" />
 
-  - After Restart the Client-1 VM 
+---
 
-  - Log into Client-1 VM and attempt to ping DC-1 private IP address for connectivity 
+## Step 7: Set DNS on Client-1 to Use DC-1's Private IP
 
-  - Ping should be successful
+- Go to **Network Settings > NIC > DNS Servers**.
+- Select **Custom**, then add **DC-1's private IP address**.
+- Restart **Client-1**.
+- Log in and run `ping <DC-1 private IP>` to confirm connectivity.
+- Verify DNS using `ipconfig /all` — DNS should point to DC-1.
 
-  - Also check to see if the Client-1 DNS settings is set to DC-1 by typing ipconfig/all. It should show DC-1's private IP address.
- 
-  <img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/65ef83ee-a708-42cb-8dab-416ecaec04f7" />
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/65ef83ee-a708-42cb-8dab-416ecaec04f7" />
 
+---
 
- # Part Two Deploying Active Directory 
+# Part 2: Deploying Active Directory
 
- ## Step 1: Install Active Directory 
-     
-- Log into DC-1 via remote desktop connection and install active directory domain services.
-- Click start and open Server Manager
-- Click on Add Roles and Features
-- Server selection should only be one DC-1
-- Server Roles add Active Directory Domain Services and click Next
-  
-<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/0c235469-dccd-47c9-8126-cdeab5313058" />
+---
 
-- Confirmattion tick then check "Restart the destination server automatically if required" click yes then install
+## Step 1: Install Active Directory Domain Services
 
-<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/de2ef90d-e707-45cc-a291-7dc8bfad08eb" />
+- Log in to **DC-1** via Remote Desktop.
+- Open **Server Manager > Add Roles and Features**.
+- Select **Active Directory Domain Services** and proceed.
 
-- Once installation complete you can close 
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/0c235469-dccd-47c9-8126-cdeab5313058" />
 
+- On the confirmation screen, check:  
+  ✅ *"Restart the destination server automatically if required"*  
+  Then click **Install**.
 
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/de2ef90d-e707-45cc-a291-7dc8bfad08eb" />
 
- 
-## Step 2: Promote DC-1 as an active controller by setting up a new forest as mydomain.com
+---
 
-- Go back into the server manager and click on "Promote this server to a domain controller"
+## Step 2: Promote DC-1 to a Domain Controller
 
-<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/04420e98-f4b0-41a1-8bc1-548bb392179c" /> 
+- Back in **Server Manager**, click **Promote this server to a domain controller**.
 
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/04420e98-f4b0-41a1-8bc1-548bb392179c" />
 
-- Click the add new forest radio button and the domain name "mydomain.com"
+- Choose **Add a new forest** and name it `mydomain.com`.
 
-  
-<img width="100%" height = "75%"  alt="Image" src="https://github.com/user-attachments/assets/b0922233-bf65-4a1f-a00d-fd65777316cf" />
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/b0922233-bf65-4a1f-a00d-fd65777316cf" />
 
-- In Directory Controller Options  create a password
+- Set a **Directory Services Restore Mode (DSRM)** password.
 
- <img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/06428cf8-1e5a-4fbf-9e83-b5663c1ea435" /> 
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/06428cf8-1e5a-4fbf-9e83-b5663c1ea435" />
 
-- In DNS Options uncheck the DNS delegation check box
+- In **DNS Options**, uncheck **DNS delegation**.
 
-<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/276cc967-2a29-481f-b5a5-09f981cff1d5" />
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/276cc967-2a29-481f-b5a5-09f981cff1d5" />
 
-- After these steps DC-1 will turn into an actual domain controller should automatically restart 
+> 🔄 DC-1 will automatically reboot as a domain controller.
 
+---
 
-# Part 3 Create Admin User in Domain Controller (DC-1)
+# Part 3: Create Admin and Join Client to Domain
 
-## Step 1 Create an Organizational Unit (OU)
+---
 
-- Click start > Windows Administrative Tools > Active Directory for Windows 
+## Step 1: Create an Organizational Unit (OU) and Admin User
 
-<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/b696bee6-6ab7-4b77-be61-1b59d2cd1df1" />
+- Open:  
+  **Start > Windows Administrative Tools > Active Directory Users and Computers**
 
-- Right Click mydomain.com > new > Organizational Unit > name it "_EMPLOYEES"
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/b696bee6-6ab7-4b77-be61-1b59d2cd1df1" />
 
-- Then create another organizational unit called "_ADMINS"
+- Create two OUs: `_EMPLOYEES` and `_ADMINS`.
 
-<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/dc99e3b4-7395-4069-81f9-99ec24f503b0" />
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/dc99e3b4-7395-4069-81f9-99ec24f503b0" />
 
-- Create a new employee named “Jane Doe” (same password) with the username 
-  of “jane_admin” / Cyberlab1234!
+- Create a user named **Jane Doe** with:
+  - **Username:** `jane_admin`
+  - **Password:** `Cyberlab1234!`
+  - Place this user in the `_ADMINS` OU.
 
-- Go to the _ADMINS folder > right click > new > User
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/0529cef5-2eed-4e20-a6bb-908e0e309a82" />
 
-<img width="100%" height = "75%"  alt="Image" src="https://github.com/user-attachments/assets/0529cef5-2eed-4e20-a6bb-908e0e309a82" />
+- Make `jane_admin` a Domain Admin:
+  - Right-click the user > **Properties > Member Of > Add**  
+  - Type `Domain Admins`, click **Check Names**, then **OK**.
 
-- This account is not an admin yet we add jane_admin to the “Domain Admins” 
-  Security Group.
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/7f34fadf-be25-4f93-92f4-9f25e7e7aac6" />
 
-- Right click on Jane Doe account > properties > click the member of tab > 
- click Add>  in the select groups > enter the object name "domain admins" > 
- then click check names > will find domain admins built in group.
+> ✅ Log out of DC-1 and back in as `mydomain.com\jane_admin`.
 
-<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/7f34fadf-be25-4f93-92f4-9f25e7e7aac6" />
+---
 
-- Log out / close the connection to DC-1 and log back in as “mydomain.com\jane_admin”.
+## Step 2: Join Client-1 to the Domain
 
-## Step 2 Join Client 1 to the domain DC-1 
+- Log in to **Client-1**.
+- Navigate to:  
+  **Start > Settings > System > Rename this PC (advanced)**  
+  - Click **Change**
+  - Select **Domain** and enter `mydomain.com`
 
-- Log into Client-1 VM
-- Right Click Start Menu > System > Rename this PC advanced > Under 
-  computer name tab >  click change 
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/a06a2670-f971-46fb-a220-f9819bdc3579" />
 
-- Tick the radio button "Member of Domain"
+- Enter domain admin credentials (e.g., `jane_admin`) when prompted.
+- After a successful domain join, **Client-1** will reboot.
 
-- Name it to "mydomain.com" click OK
-
-<img width="100%" height = "75%" alt="Image" src="https://github.com/user-attachments/assets/a06a2670-f971-46fb-a220-f9819bdc3579" />
-
-- After click okay enter in admin credentials for domain controller
-
-- Client-1 will restart and will be a member of the domain.
 
 
 
