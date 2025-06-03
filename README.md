@@ -191,7 +191,53 @@ This guide outlines how to deploy and configure an on-premises-style Active Dire
 <img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/a06a2670-f971-46fb-a220-f9819bdc3579" />
 
 - Enter domain admin credentials (e.g., `jane_admin`) when prompted.
-- After a successful domain join, **Client-1** will reboot.
+- After a successful domain join, **Client-1** will reboot and be a member of domain.
+- Log into DC-1 and verify Client-1 shows up in ADUC
+- Go Start Menu > Active Directory Users and Computers > Computers > Client-1 should be present
+- Organisation Unit called _CLIENTS and move client-1 into this folder
+
+
+  <img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/f017a37f-5f64-40db-9231-96c043247ac6" />
+
+
+# Part 4  Creating Users using Powershell
+
+## Step 1:  Allow Domain Users to access Remote Desktop
+
+- Log into client 1 as mydomain.com\jane_admin and open system properties
+- Go to System > Remote Desktop > Clik the link under "User Accounts" > click Add
+- Type "Domain User" which means all users are added by default  > click Okay
+- You can now log into client 1 as non-administrative user 
+
+
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/d36e31f3-49bc-4700-b0d7-4feaf1f12c70" />
+
+## Step 2: Create users uisng Powershell
+
+- Log into DC-1 as Jane Doe admin
+- Open up Windows Powershell ISE as admin
+- Download the script attached to to this Readme "create-users.txt"
+- Save the file on to Desktop of DC-1
+- Click run script in Windows Powershell ISE
+- When finished observe the accounts being created in appropriate organisational unit aka _EMPLOYEES
+- Attempt to log into Client-1 using any of the accounts created 
+
+<img width="100%" height="75%" alt="Image" src="https://github.com/user-attachments/assets/1651f678-368d-445b-9fc1-c0dcd667d973" />
+
+## ✅ Conclusion
+
+You've now successfully deployed a fully functional on-premises-style Active Directory environment in Azure. From provisioning virtual machines to joining a client to the domain and managing users with PowerShell — your cloud-based AD infrastructure is ready to support enterprise-level operations.
+
+
+
+
+
+
+  
+
+
+
+  
 
 
 
